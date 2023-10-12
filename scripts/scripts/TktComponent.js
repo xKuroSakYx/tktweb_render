@@ -11,7 +11,7 @@ var animating; //flag to prevent quick multi-click glitches
 
 var X6N = new URL(window.location.href).hostname
 var X6NGE = X6N == 'localhost'?'localhost:8080/': X6N == "184.168.23.29" ? 'http://184.168.23.29/': 'https://x6nge.com/'
-var API = X6N == 'localhost'?'localhost:5000/api/': X6N == "184.168.23.29"? 'http://184.168.23.29/api/api': 'https://184.168.23.29/api/api/'
+var API = X6N == 'localhost'?'localhost:5000/api/': X6N == "184.168.23.29"? 'http://184.168.23.29/api/api': 'http://184.168.23.29/api/api/'
 
 var TKT = AolaxReactive({
     el: "#multi_step_sign_up",
@@ -100,7 +100,7 @@ var TKT = AolaxReactive({
 				}
 			*/
 			//return this.startNext(e);
-			window.location.href = "https://184.168.23.29/api";
+			window.location.href = "http://184.168.23.29/api";
 			return;
 		},
 		auth_telegram: function(e){
