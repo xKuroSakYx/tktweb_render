@@ -100,7 +100,7 @@ var TKT = AolaxReactive({
 				}
 			*/
 			//return this.startNext(e);
-			window.location.href = "http://184.168.23.29/api";
+			window.location.href = "https://tktpy-render.onrender.com";
 			return;
 		},
 		auth_telegram: function(e){
