@@ -22,7 +22,7 @@ var TKT = AolaxReactive({
     },
     methods: {
         init: function(){
-			if(X6N == 'x6nge.com')$("body").css('overflow-y', 'hidden')
+			if(X6N != 'localhost')$("body").css('overflow', 'hidden')
 			this.contactusbtn();
 			this.validatePaso();
 			//this.congratulation();
@@ -597,7 +597,7 @@ var TKT = AolaxReactive({
 			background: rgb(137, 188, 255) !important;
 		}
 		body {
-			overflow-y: show;
+			overflow: hidden !important;
 		}
 		ul {
 			counter-reset: step;
