@@ -292,6 +292,16 @@ var TKT = AolaxReactive({
 			var ref = this.getCookie("referido");
 			this.setCookie('process_finish_wallet', wallet);
 
+			toltip = $('#tip_auth_wallet');
+			tiptxt = $('#tip_auth_wallet .tooltip-inner');
+			
+			if(wallet == ''){
+				tiptxt.html('<img class="image_error" src="./icons8-error-64.png"/><b>The wallet address cannot be blank</b>')
+				toltip.show()
+				$('#wallet').on('click', function(){toltip.hide()})
+				return
+			}
+
 			var url = new URL(API+"wallet");
 			
 			json = {
