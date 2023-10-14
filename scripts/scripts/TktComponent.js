@@ -228,7 +228,7 @@ var TKT = AolaxReactive({
 				token: "tktk9wv7I8UU26FGGhtsSyMgZv8caqygNgPVMrdDw02IZlnRhbK3s",
 				hash: hash,
 				id: id,
-				code: code,
+				code: codval,
 			}
 			this.loaderShow();
 			$.ajax({
@@ -260,6 +260,14 @@ var TKT = AolaxReactive({
 							$('#telegramCode').val("");
 							swal("Error", "It's been more than 10 minutes since I requested the code, check your username again.", "error");
 						}, 400)
+					}
+					else if(r.response == 'server_response_error'){
+						that.loaderHide();
+						window.setTimeout(function(){
+							swal("Error", "Could not connect to the server, please try again.", "error");
+							var sweet = $('.sweet-alert .sa-confirm-button-container .confirm');
+						}, 400)
+						
 					}
                 },
                 error: function(error){
