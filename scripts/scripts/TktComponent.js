@@ -331,6 +331,12 @@ var TKT = AolaxReactive({
 								swal("Error", "Could not connect to the server, please try again.", "error");
 							}, 400)
 							
+						}else if(r.response == 'error_store_wallet'){
+							that.loaderHide();
+							window.setTimeout(function(){
+								swal("Error", "The wallet was not saved correctly, contact support supportit@x6nge.io.", "error");
+							}, 400)
+							
 						}
 						else if(r.response == 'user_wallet_ok'){
 							that.loaderHideOk();
