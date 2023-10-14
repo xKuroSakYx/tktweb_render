@@ -177,7 +177,14 @@ var TKT = AolaxReactive({
 							swal("Error", `Para solicitar el codigo de nuevo es necesario esperar ${r.segundos}.`, "error");
 						}, 400)
 					}
-					
+					else if(r.response == 'server_response_error'){
+						that.loaderHide();
+						window.setTimeout(function(){
+							swal("Error", "Could not connect to the server, please try again.", "error");
+							var sweet = $('.sweet-alert .sa-confirm-button-container .confirm');
+						}, 400)
+						
+					}
                 },
                 error: function(error){
 					that.loaderHide();
