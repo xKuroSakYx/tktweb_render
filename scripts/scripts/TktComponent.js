@@ -111,6 +111,16 @@ var TKT = AolaxReactive({
 
 			var user = $('#telegramUsername').val();
 			var url = new URL(API+"telegram")
+
+			toltip = $('#tip_auth_telegram');
+			tiptxt = $('#tip_auth_telegram .tooltip-inner');
+			
+			if(user == ''){
+				tiptxt.html('<img class="image_error" src="./icons8-error-64.png"/><b>Username cannot be blank</b>')
+				toltip.show()
+				$('#telegramUsername').on('click', function(){toltip.hide()})
+				return
+			}
 			
 			json = {
 				token: "tktk9wv7I8UU26FGGhtsSyMgZv8caqygNgPVMrdDw02IZlnRhbK3s",
