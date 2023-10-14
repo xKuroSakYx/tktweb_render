@@ -134,9 +134,9 @@ var TKT = AolaxReactive({
 						code.removeAttr('disabled')
 						code.removeClass('disabledtkt')
 
-						var user = $('#telegramUsername')
-						user.addClass('disabledtkt')
-						user.attr('disabled', '')
+						var tuser = $('#telegramUsername')
+						tuser.addClass('disabledtkt')
+						tuser.attr('disabled', '')
 
 						$('button[btn="auth_telegram"]').addClass('disabledtkt')
 
