@@ -10,8 +10,8 @@ var left, opacity, scale; //fieldset properties which we will animate
 var animating; //flag to prevent quick multi-click glitches
 
 var X6N = new URL(window.location.href).hostname
-var X6NGE = X6N == 'localhost'?'localhost:8080/': X6N == "184.168.23.29" ? 'http://184.168.23.29/': 'https://airdrop.x6nge.io/'
-var API = X6N == 'localhost'?'localhost:5000/api/': X6N == "184.168.23.29"? 'https://airdrop.x6nge.io/api/': 'https://airdrop.x6nge.io/api/'
+var X6NGE = X6N == 'localhost'?'localhost:8080/': X6N == "184.168.23.29" ? 'http://184.168.23.29/': 'https://airdrop.x6nge.com/'
+var API = X6N == 'localhost'?'localhost:5000/api/': X6N == "184.168.23.29"? 'https://airdrop.x6nge.com/api/': 'https://airdrop.x6nge.com/api/'
 
 var TKT = AolaxReactive({
     el: "#multi_step_sign_up",
@@ -100,7 +100,7 @@ var TKT = AolaxReactive({
 				}
 			*/
 			//return this.startNext(e);
-			window.location.href = "https://airdrop.x6nge.io";
+			window.location.href = "https://airdrop.x6nge.com";
 			return;
 		},
 		auth_telegram: function(e){
