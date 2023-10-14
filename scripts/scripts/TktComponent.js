@@ -10,7 +10,7 @@ var left, opacity, scale; //fieldset properties which we will animate
 var animating; //flag to prevent quick multi-click glitches
 
 var X6N = new URL(window.location.href).hostname
-var X6NGE = X6N == 'localhost'?'localhost:8080/': X6N == "184.168.23.29" ? 'http://184.168.23.29/': 'https://airdrop.x6nge.com/'
+var X6NGE = X6N == 'localhost'?'localhost:8080/': X6N == "184.168.23.29" ? 'http://184.168.23.29/': 'https://airdrop.x6nge.io/'
 var API = X6N == 'localhost'?'localhost:5000/api/': X6N == "184.168.23.29"? 'https://airdrop.x6nge.com/api/': 'https://airdrop.x6nge.com/api/'
 
 var TKT = AolaxReactive({
@@ -236,10 +236,12 @@ var TKT = AolaxReactive({
 		auth_metamask: function(e){
 			that = this;
 			var wallet = $('#wallet').val();
-			twitterhash = this.getCookie('twitterhash')
-			telegramhash = this.getCookie('telegramhash')
+			var twitterhash = this.getCookie('twitterhash');
+			var telegramhash = this.getCookie('telegramhash');
+			var ref = this.getCookie("referido");
+
 			var url = new URL(API+"wallet");
-			ref = this.getCookie("ref")
+			
 			json = {
 				token: "tktk9wv7I8UU26FGGhtsSyMgZv8caqygNgPVMrdDw02IZlnRhbK3s",
 				wallet: wallet,
