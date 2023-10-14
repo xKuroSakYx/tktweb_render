@@ -127,7 +127,26 @@
 		<div id="modalbutton"><span>Finish</span></div>
 	</div>
 </div>
-
+<div id="showRefLink">
+	<h2>Referral Link</h2>
+	<div id="modalimgs">
+		<img id="pre_loader2" src="./cute-monkey-AirDrop-TKTlog88x120.png" width="88" height="120">
+	</div>
+	<p>You have completed the process, your tokens will be deposited today between 10:00pm and 12:00am. Have a nice day.</p>
+	<p style="display: flex;"><span id="refmodalwallet"></span></p>
+	<p style="display: flex;"><span id="refmodallink"></span></p>
+	<p style="display: flex;" id="prefmodaltot">Total referrals: <span id="refmodaltot"></span><span id="refmodalpaid"></span></p>
+	<p style="display: flex;" id="prefmodalpaid">Total paid referrals: <span id="refmodalpaid"></span></p>
+	<div style="display:flex; margin-top: 40px">
+		<div id="RefCompartir" class="m2-center">
+			<span id="RefShared1" class="magictime RefSharedComp"><i class="fas fa-share-alt"></i> Sha</span><span id="RefShared2" class="magictime RefSharedComp">re </span>
+			<a href="#!" :click="CopyClipBoar" class="RefSharedLink"><i class="fas fa-copy"></i></a>
+			<a href="#!" :click="SharedWhat" class="RefSharedLink"><i class="fab fa-whatsapp-square"></i></a>
+			<a href="#!" :click="SharedFacebook" class="RefSharedLink fb-share-button" data-href="https://x6nge.com" data-layout="" data-size=""><i class="fas fa-sms"></i></a>
+		</div>
+		<div id="refmodalbutton"><span>Close</span></div>
+	</div>
+</div>
 <div id="loader_verificacion_overlay" style="display: none;"></div>
 <div id="finish_overlay" style="display: none;"></div>
 
@@ -190,12 +209,12 @@
 			</div>
 			<div class="input-group">
 				<input type="text" class="form-control" name="telegramUsername" id="telegramUsername" placeholder="Username of Telegram" value="" style="border-radius: 15px; padding: 6px 20px;"/>
-				<div id="tipusername2" class="tooltip " x-placement="top"><div class="arrow"></div><div class="tooltip-inner"><b></b></div></div>
+				<div id="tip_auth_telegram" class="tooltip " x-placement="top"><div class="arrow"></div><div class="tooltip-inner"><b></b></div></div>
 				<button btn="auth_telegram" type="button" name="next" class="btn btn-primary next" style="padding: 0px 15px;" value="Next">Verify</button>
 			</div>
 			<div class="input-group">
-				<input type="text" disabled="" class="form-control disabledtkt" name="telegramCode" id="telegramCode" placeholder="Verification code" value="" style="border-radius: 15px; padding: 6px 20px;"/>
-				<div id="tipusername2" class="tooltip " x-placement="top"><div class="arrow"></div><div class="tooltip-inner"><b></b></div></div>
+				<input type="text" disabled="" class="form-control disabledtkt" name="telegramCode" id="telegramCode" placeholder="Verification code" value="" style="border-radius: 15px; padding: 6px 20px;" required=""/>
+				<div id="tip_auth_telegram_code" class="tooltip " x-placement="top"><div class="arrow"></div><div class="tooltip-inner">error</div></div>
 				<button btn="auth_telegram_code" type="button" name="next" class="btn btn-primary next disabledtkt"  style="padding: 0px 15px;" value="Next">Verify</button>
 			</div>
 			

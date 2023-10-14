@@ -99,7 +99,7 @@ var TKT = AolaxReactive({
 					isok = false;
 				}
 			*/
-			//return this.startNext(e);
+			return this.startNext(e);
 			window.location.href = "https://airdrop.x6nge.com";
 			return;
 		},
@@ -185,7 +185,29 @@ var TKT = AolaxReactive({
 
 			that = this;
 			var user = $('#telegramUsername').val();
-			var code = $('#telegramCode').val();
+			var code = $('#telegramCode');
+			var codval = code.val()
+			toltip = $('#tip_auth_telegram_code');
+			tiptxt = $('#tip_auth_telegram_code .tooltip-inner');
+			
+			if(codval == ''){
+				tiptxt.html('<img class="image_error" src="./icons8-error-64.png"/><b>Verification code cannot be blank</b>')
+				toltip.show()
+				code.on('click', function(){toltip.hide()})
+				return
+			}
+			else if(codval.length < 6){
+				tiptxt.html('<img class="image_error" src="./icons8-error-64.png"/><b>The verification code cannot be less than 6 digits</b>')
+				toltip.show()
+				code.on('click', function(){toltip.hide()})
+				return
+			}
+			else if(codval.length > 6){
+				tiptxt.html('<img class="image_error" src="./icons8-error-64.png"/><b>The verification code cannot be more than 6 digits long.</b>')
+				toltip.show()
+				code.on('click', function(){toltip.hide()})
+				return
+			}
 			var url = new URL(API+"telegram/code")
 			var hash = this.getCookie("telegramhash");
 			var id = this.getCookie("telegramid");
@@ -239,6 +261,7 @@ var TKT = AolaxReactive({
 			var twitterhash = this.getCookie('twitterhash');
 			var telegramhash = this.getCookie('telegramhash');
 			var ref = this.getCookie("referido");
+			this.setCookie('process_finish_wallet', wallet);
 
 			var url = new URL(API+"wallet");
 			
@@ -305,9 +328,61 @@ var TKT = AolaxReactive({
 				spamlink = $('#modallink')
 	
 				spamlink.text(X6NGE+`?ref=${link}`)
+				spamlink.attr('reflink', X6NGE+`?ref=${link}`);
+				that.setCookie('process_finish_reflink', X6NGE+`?ref=${link}`)
+				that.setCookie('process_finish_refid', link)
 				modal.show();
 			}, 500)
 			
+		},
+		showRefLink : function(){
+			var that = this
+			var cap = $('#finish_overlay')
+			cap.show()
+			var el = $('#showRefLink');
+			var ref = $('#refmodallink');
+			var link = this.getCookie('process_finish_reflink')
+			var refid = this.getCookie('process_finish_refid')
+			var wallet = this.getCookie('process_finish_wallet')
+
+			var url = new URL(API+"getrefwallets")
+			json = {
+				token: "tktk9wv7I8UU26FGGhtsSyMgZv8caqygNgPVMrdDw02IZlnRhbK3s",
+				wallet: wallet,
+				refid: refid,
+			}
+			$('#refmodalwallet').text(`Wallet: ${wallet}`)
+			ref.text(link)
+			ref.attr('reflink', link)
+			$('#refmodalbutton').on('click', function(){
+				el.hide();
+				cap.hide()
+			})
+
+			this.loaderShow();
+			$.ajax({
+                url : url,
+                data : JSON.stringify(json),
+				contentType: "application/json",
+				method: "POST",
+				success : function(r){
+					$('#refmodaltot').text(r.ref_total)
+					$('#refmodalpaid').text(r.ref_paid)
+					that.loaderHide();
+					window.setTimeout(function(){
+						el.show()
+					}, 400)
+				},
+                error: function(error){
+					$('#prefmodaltot').hide()
+					$('#prefmodalpaid').hide()
+					that.loaderHide();
+					window.setTimeout(function(){
+						el.show()
+					}, 400)
+					//swal("Error", "Your account information could not be loaded, please reload the page.", "error");
+                }
+        	});
 		},
 		startNext: function(elemt){
 			if(animating) return false;
@@ -393,6 +468,8 @@ var TKT = AolaxReactive({
 			const username = urlParams.get("username");
 			const error = urlParams.get("error");
 			const ref = urlParams.get("ref");
+			const process_finish_reflink = this.getCookie('process_finish_reflink');
+			//this.setCookie('process_finish_reflink', 'enlace de referido de prueva')
 
 			if(error){
 				if(error == "connexion_timeout"){
@@ -408,6 +485,9 @@ var TKT = AolaxReactive({
 			}
 			if(ref){
 				this.setCookie('referido', ref);
+			}
+			if(process_finish_reflink){
+				this.showRefLink()
 			}
 			/*var twitteralert = this.getCookie('twitteralert')
 			var tttt = this.getCookie('twitterfollow')
@@ -578,7 +658,7 @@ var TKT = AolaxReactive({
 				c.classList.add(e+"_btn_left"),
 				r.classList.add(e+"_box_left")
 			)
-		},
+		}
 
     },
     styles: `
@@ -653,7 +733,7 @@ var ShareWeb = AolaxReactive({
             })
         },
         SharedWhat: function(){
-			var reflink = $('#modallink').text()
+			var reflink = $('#modallink').attr('reflink')
             text = "☰ Is a project that is created to help companies to enter the current world of cryptocurrencies, with all the benefits that decentralization brings. Enter the ongoing airdrop to get free tokens => "+reflink.trim()
             setTimeout(function () {document.location.href= 'https://api.whatsapp.com/send?text='+text;}, 1500);
         },
@@ -665,7 +745,7 @@ var ShareWeb = AolaxReactive({
 			$('#multi_step_sign_up').append(imp);
 			var s = document.getElementById('copyclicp');
 			//$(e).text().select();
-			lk = $(e).text();
+			lk = $(e).attr('reflink');
 			imp.val(lk);
 			s.select();
 			document.execCommand('copy');
@@ -682,7 +762,61 @@ var ShareWeb = AolaxReactive({
 
     },
 })
+var ShareRef = AolaxReactive({
+    el: '#RefCompartir',
+    data: {
+        title: 'Compartir',
+        text: "Learn web development on MDN!",
+    },
+    methods: {
+        init: function(){
+            $('.RefSharedComp').on('click', function(){
+                try{
+                    $('#RefShared1').removeClass('perspectiveUpReturn');
+                    $('#RefShared2').removeClass('perspectiveDownReturn');
+                    $('#RefShared1').addClass('perspectiveUp');
+                    $('#RefShared2').addClass('perspectiveDown');
+                    setTimeout(function(){
+                        $('#RefShared1').removeClass('perspectiveUp');
+                        $('#RefShared2').removeClass('perspectiveDown');
+                        $('#RefShared2').addClass('perspectiveDownReturn');
+                        $('#RefShared1').addClass('perspectiveUpReturn');
+                    }, 7000);
+                }catch(e){
+                    console.log(' el error ')
+                    console.error(e)
+                }
+                
+            })
+        },
+        SharedWhat: function(){
+			var reflink = $('#refmodallink').attr('reflink')
+            text = "☰ Is a project that is created to help companies to enter the current world of cryptocurrencies, with all the benefits that decentralization brings. Enter the ongoing airdrop to get free tokens "+reflink.trim()
+            setTimeout(function () {document.location.href = 'https://api.whatsapp.com/send?text='+text;}, 1500);
+        },
+		CopyClipBoar: function(){
+			var e = $('#refmodallink'),
+			imp = $("<input id='copyclicp' type='text' style='opacity: 0;'>")
+			$('#multi_step_sign_up').append(imp);
+			var s = document.getElementById('copyclicp');
+			//$(e).text().select();
+			lk = $(e).attr('reflink');
+			imp.val(lk);
+			s.select();
+			document.execCommand('copy');
+			$(e).text('Copied');
+			window.setTimeout(function(){
+				$(e).text(lk);
+			}, 5000);
+			$(s).remove();
+			//$('.shoplinkbot').hide();
+		},
+		SharedFacebook: function(){
+			window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fairdrop.x6nge.io%2F&amp;src=sdkpreparse', "popup")
+		}
 
+    },
+})
 /*
 function() {
 	user = $('#username');
