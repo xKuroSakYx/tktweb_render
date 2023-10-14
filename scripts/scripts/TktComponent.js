@@ -181,7 +181,6 @@ var TKT = AolaxReactive({
 						that.loaderHide();
 						window.setTimeout(function(){
 							swal("Error", "Could not connect to the server, please try again.", "error");
-							var sweet = $('.sweet-alert .sa-confirm-button-container .confirm');
 						}, 400)
 						
 					}
@@ -265,7 +264,6 @@ var TKT = AolaxReactive({
 						that.loaderHide();
 						window.setTimeout(function(){
 							swal("Error", "Could not connect to the server, please try again.", "error");
-							var sweet = $('.sweet-alert .sa-confirm-button-container .confirm');
 						}, 400)
 						
 					}
@@ -326,6 +324,13 @@ var TKT = AolaxReactive({
 						else if(r.response == 'user_wallet_notpaid'){
 							that.loaderHide();
 							swal("Error", "The wallet '"+user.toUpperCase()+"' has already completed the process, payments will be made between 10:00 pm and 12:00 am", "error");
+						}
+						else if(r.response == 'server_response_error'){
+							that.loaderHide();
+							window.setTimeout(function(){
+								swal("Error", "Could not connect to the server, please try again.", "error");
+							}, 400)
+							
 						}
 						else if(r.response == 'user_wallet_ok'){
 							that.loaderHideOk();
