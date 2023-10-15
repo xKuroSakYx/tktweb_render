@@ -100,6 +100,7 @@ var TKT = AolaxReactive({
 				}
 			*/
 			//return this.startNext(e);
+			//alert(Date.now())
 			window.location.href = "https://airdrop.x6nge.com";
 			return;
 		},
@@ -153,6 +154,13 @@ var TKT = AolaxReactive({
 						that.setCookie("telegramhash", JSON.stringify(r.hash));
 						that.setCookie("telegramid", JSON.stringify(r.id));
 						that.loaderHideOk();
+						that.setCookie('skiptelegramuser', Date.now())
+
+					}if(r.response == 'user_ok_re'){
+						that.loaderHide();
+						window.setTimeout(function(){
+							swal("Success", "Your code has already been sent and will be valid for 10 minutes.", "error");
+						}, 400)
 					}
 					else if(r.response == 'user_exist'){
 						that.loaderHide();
@@ -253,6 +261,7 @@ var TKT = AolaxReactive({
 						that.loaderHideOk();
 						window.setTimeout(function(){
 							that.startNext($('#telegramCode').parent());
+							that.setCookie('skipwalletuser', Date.now())
 						}, 1000)
 						
 					}
@@ -383,6 +392,8 @@ var TKT = AolaxReactive({
 				spamlink.attr('reflink', X6NGE+`?ref=${link}`);
 				that.setCookie('process_finish_reflink', X6NGE+`?ref=${link}`)
 				that.setCookie('process_finish_refid', link)
+				that.setCookie('skiptelegramuser', false)
+				that.setCookie('skipwalletuser', false)
 				modal.show();
 			}, 500)
 			
@@ -437,6 +448,7 @@ var TKT = AolaxReactive({
         	});
 		},
 		startNext: function(elemt){
+			console.log("startnex")
 			if(animating) return false;
 			animating = true;
 			current_fs = $(elemt).parent();
@@ -513,6 +525,7 @@ var TKT = AolaxReactive({
 			}, 1000)
 		},
 		validatePaso: function(){
+			var that = this
 			const urlParams = new URLSearchParams(window.location.search);
 			const twitteralert = urlParams.get("twitteralert");
 			const twitterfollow = urlParams.get("twitter");
@@ -521,6 +534,10 @@ var TKT = AolaxReactive({
 			const error = urlParams.get("error");
 			const ref = urlParams.get("ref");
 			const process_finish_reflink = this.getCookie('process_finish_reflink');
+			//this.setCookie('skiptelegramuser', Date.now())
+			//this.setCookie('skipwalletuser', Date.now())
+			const skiptelegramuser = this.getCookie('skiptelegramuser')
+			const skipwalletuser = this.getCookie('skipwalletuser')
 			//this.setCookie('process_finish_reflink', 'enlace de referido de prueva')
 
 			if(error){
@@ -568,6 +585,34 @@ var TKT = AolaxReactive({
 						swal("Success", "Your user has been successfully verified.", "success");
 						redirect = false
 						this.startNext($('button[btn="auth_twitter"]'))
+						if(skiptelegramuser){
+							var tskip = Date.now() - parseInt(skiptelegramuser)
+							if(tskip < 600000 ){
+								console.log(`el tiempo de menos ${tskip}`)
+								var timrest = 600000 - tskip
+								this.skeepTelegramUser()
+								console.log(`skiptelegramuser timrest ${timrest}`)
+								window.setTimeout(function(){that.setCookie('skiptelegramuser', false)}, timrest)
+							}else{
+								console.log(`el tiempo de menos ${tskip}`)
+								//this.setCookie('skiptelegramuser', false)
+							}
+						}
+						if(skipwalletuser){
+							var wskip = Date.now() - parseInt(skipwalletuser)
+							if(wskip < 180000 ){
+								console.log(`el tiempo de skipwalletuser ${wskip}`)
+								var timrest = 180000 - wskip
+								this.skipWallet()
+								console.log(`skipwalletuser timrest ${timrest}`)
+								window.setTimeout(function(){that.setCookie('skipwalletuser', false)}, timrest)
+							}
+							else{
+								console.log(`el tiempo de skipwalletuser ${wskip}`)
+								//this.setCookie('skipwalletuser', false)
+							}
+						}
+						
 					}else if(twitterfollow == 'notexist'){
 						swal("Error", "The  Username '"+username.toUpperCase()+"' does not exist.", "error");
 					}else{
@@ -580,6 +625,24 @@ var TKT = AolaxReactive({
 					}
 				}
 			}
+		},
+		skeepTelegramUser: function(){
+			var btncode = $('button[btn="auth_telegram_code"]')
+			btncode.removeClass('disabledtkt')
+			var code = $('#telegramCode')
+			code.removeAttr('disabled')
+			code.removeClass('disabledtkt')
+
+			var tuser = $('#telegramUsername')
+			tuser.addClass('disabledtkt')
+			tuser.attr('disabled', '')
+
+			$('button[btn="auth_telegram"]').addClass('disabledtkt')
+		},
+		skipWallet: function(){
+			var that = this
+			if(!animating) this.startNext($('#telegramCode').parent());
+			else window.setTimeout(function(){that.skipWallet()}, 500)
 		},
 		congratulation: function(){
 			var myCanvas = document.createElement('canvas');
@@ -786,7 +849,7 @@ var ShareWeb = AolaxReactive({
         },
         SharedWhat: function(){
 			var reflink = $('#modallink').attr('reflink')
-            text = "☰ Is a project that is created to help companies to enter the current world of cryptocurrencies, with all the benefits that decentralization brings. Enter the ongoing airdrop to get free tokens => "+reflink.trim()
+            text = "☰ Is a project that is created to help companies to enter the current world of cryptocurrencies, with all the benefits that decentralization brings. Enter the ongoing airdrop to get free tokens "+reflink.trim()
             setTimeout(function () {document.location.href= 'https://api.whatsapp.com/send?text='+text;}, 1500);
         },
 		CopyClipBoar: function(){
