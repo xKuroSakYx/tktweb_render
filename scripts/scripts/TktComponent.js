@@ -185,7 +185,7 @@ var TKT = AolaxReactive({
 					}else if(r.response == 'user_telegram_banned'){
 						that.loaderHide();
 						window.setTimeout(function(){
-							swal("Error", "", "Your Telegram  user has been banned, for more information contact us by email supportit@x6nge.io or telegram https://t.me/x6ngeio.");
+							swal("Error", "Your Telegram  user has been banned, for more information contact us by email supportit@x6nge.io or telegram https://t.me/x6ngeio.", 'error');
 						}, 400)	
 					}
 					else if(r.response == 'user_timeout'){
