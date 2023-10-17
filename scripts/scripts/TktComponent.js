@@ -336,39 +336,39 @@ var TKT = AolaxReactive({
 						console.log(r.response)
 						
 						if(r.response == 'user_twitter_exist'){
-							that.loaderHide();
+							this.walletReset(2)
 							swal("Error", "Your twitter user has already received the tokens.", "error");
 						}
 						else if(r.response == 'user_telegram_exist'){
-							that.loaderHide();
+							this.walletReset(2);
 							swal("Error", "Your Telegram user has already received the tokens", "error");
 						}
 						else if(r.response == 'user_twitter_notexist'){
-							that.loaderHide();
+							this.walletReset(2);
 							swal("Error", "The twitter user does not exist or was recently deleted", "error");
 						}
 						else if(r.response == 'user_telegram_notexist'){
-							that.loaderHide();
+							this.walletReset(2);
 							swal("Error", "Telegram user does not exist or was recently deleted", "error");
 						}
 						else if(r.response == 'user_wallet_paid'){
-							that.loaderHide();
+							this.walletReset(2);
 							swal("Error", "The wallet '"+wallet.toUpperCase()+"' already received the tokens, please use another wallet", "error");
 						}
 						else if(r.response == 'user_wallet_notpaid'){
-							that.loaderHide();
+							this.walletReset(2);
 							swal("Error", "The wallet '"+wallet.toUpperCase()+"' has already completed the process, payments will be made between 10:00 pm and 12:00 am", "error");
 						}
 						else if(r.response == 'user_twitter_banned'){
-							that.loaderHide();
+							this.walletReset(2);
 							swal("Error", "", "Your Twitter user has been banned, for more information contact us by email supportit@x6nge.io or telegram https://t.me/x6ngeio.");
 						}
 						else if(r.response == 'user_telegram_banned'){
-							that.loaderHide();
+							this.walletReset(2);
 							swal("Error", "", "Your Telegram  user has been banned, for more information contact us by email supportit@x6nge.io or telegram https://t.me/x6ngeio.");
 						}
 						else if(r.response == 'user_wallet_banned'){
-							that.loaderHide();
+							this.walletReset(2);
 							swal("Error", "Your wallet has been banned, for more information contact us by email supportit@x6nge.io or telegram https://t.me/x6ngeio.", "error");
 						}
 						else if(r.response == 'server_response_error'){
@@ -397,6 +397,22 @@ var TKT = AolaxReactive({
 					swal("Error", "An unexpected error has occurred, please try agains.", "error");
                 }
         	});
+		},
+		walletReset: function(a=1){
+			that.loaderHide();
+			var sweet = $('.sweet-alert .sa-confirm-button-container .confirm')
+			sweet.attr('redirect', 'https://airdrop.x6nge.io')
+			if(a == 1) this.setCookie('skipwalletuser', false)
+			if(a == 2){
+				this.setCookie('skiptelegramuser', false)
+				this.setCookie('skipwalletuser', false)
+			}
+			sweet.on('click', ()=>{
+				var url = $(this).attr("redirect");
+				$(this).attr("redirect", 'false');
+				if(url != 'false')
+					window.location.href = url
+			})
 		},
 		showModal: function(data, link){
 			$('#finish_overlay').show()
