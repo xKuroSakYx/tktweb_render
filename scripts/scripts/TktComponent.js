@@ -357,7 +357,7 @@ var TKT = AolaxReactive({
 						}
 						else if(r.response == 'user_wallet_notpaid'){
 							that.loaderHide();
-							swal("Error", "The wallet '"+user.toUpperCase()+"' has already completed the process, payments will be made between 10:00 pm and 12:00 am", "error");
+							swal("Error", "The wallet '"+wallet.toUpperCase()+"' has already completed the process, payments will be made between 10:00 pm and 12:00 am", "error");
 						}
 						else if(r.response == 'user_twitter_banned'){
 							that.loaderHide();
