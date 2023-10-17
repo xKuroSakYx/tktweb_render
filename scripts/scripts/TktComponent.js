@@ -401,7 +401,7 @@ var TKT = AolaxReactive({
 		walletReset: function(a=1){
 			that.loaderHide();
 			var sweet = $('.sweet-alert .sa-confirm-button-container .confirm')
-			sweet.attr('redirect', 'https://airdrop.x6nge.io/')
+			sweet.attr('redirect', 'airdrop.x6nge.io')
 			if(a == 1) this.setCookie('skipwalletuser', false)
 			if(a == 2){
 				this.setCookie('skiptelegramuser', false)
