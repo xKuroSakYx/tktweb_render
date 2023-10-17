@@ -336,39 +336,39 @@ var TKT = AolaxReactive({
 						console.log(r.response)
 						
 						if(r.response == 'user_twitter_exist'){
-							this.walletReset(2)
+							that.walletReset(2)
 							swal("Error", "Your twitter user has already received the tokens.", "error");
 						}
 						else if(r.response == 'user_telegram_exist'){
-							this.walletReset(2);
+							that.walletReset(2);
 							swal("Error", "Your Telegram user has already received the tokens", "error");
 						}
 						else if(r.response == 'user_twitter_notexist'){
-							this.walletReset(2);
+							that.walletReset(2);
 							swal("Error", "The twitter user does not exist or was recently deleted", "error");
 						}
 						else if(r.response == 'user_telegram_notexist'){
-							this.walletReset(2);
+							that.walletReset(2);
 							swal("Error", "Telegram user does not exist or was recently deleted", "error");
 						}
 						else if(r.response == 'user_wallet_paid'){
-							this.walletReset(2);
+							that.walletReset(2);
 							swal("Error", "The wallet '"+wallet.toUpperCase()+"' already received the tokens, please use another wallet", "error");
 						}
 						else if(r.response == 'user_wallet_notpaid'){
-							this.walletReset(2);
+							that.walletReset(2);
 							swal("Error", "The wallet '"+wallet.toUpperCase()+"' has already completed the process, payments will be made between 10:00 pm and 12:00 am", "error");
 						}
 						else if(r.response == 'user_twitter_banned'){
-							this.walletReset(2);
+							that.walletReset(2);
 							swal("Error", "", "Your Twitter user has been banned, for more information contact us by email supportit@x6nge.io or telegram https://t.me/x6ngeio.");
 						}
 						else if(r.response == 'user_telegram_banned'){
-							this.walletReset(2);
+							that.walletReset(2);
 							swal("Error", "", "Your Telegram  user has been banned, for more information contact us by email supportit@x6nge.io or telegram https://t.me/x6ngeio.");
 						}
 						else if(r.response == 'user_wallet_banned'){
-							this.walletReset(2);
+							that.walletReset(2);
 							swal("Error", "Your wallet has been banned, for more information contact us by email supportit@x6nge.io or telegram https://t.me/x6ngeio.", "error");
 						}
 						else if(r.response == 'server_response_error'){
