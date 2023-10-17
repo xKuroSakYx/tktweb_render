@@ -566,7 +566,7 @@ var TKT = AolaxReactive({
 					swal("Error", "The user "+u.toUpperCase()+" has already received the tokens", "error");
 				}
 				else if(error == 'user_twitter_banned'){
-					swal("Error", "", "Your Twitter user has been banned, for more information contact us by email supportit@x6nge.io or telegram https://t.me/x6ngeio.");
+					swal("Error", "Your Twitter user has been banned, for more information contact us by email supportit@x6nge.io or telegram https://t.me/x6ngeio.");
 				}
 			}
 			if(twitterhash){
