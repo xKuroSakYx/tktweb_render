@@ -411,7 +411,7 @@ var TKT = AolaxReactive({
 				var url = $(this).attr("redirect");
 				$(this).attr("redirect", 'false');
 				if(url == 'home')
-					window.location.href = 'https://airdrop.x6nge.io/?a=b'
+					window.location.href = new URL('https://airdrop.x6nge.io/?a=b')
 			})
 		},
 		showModal: function(data, link){
