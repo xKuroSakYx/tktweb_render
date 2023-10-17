@@ -407,12 +407,7 @@ var TKT = AolaxReactive({
 				this.setCookie('skiptelegramuser', false)
 				this.setCookie('skipwalletuser', false)
 			}
-			sweet.on('click', ()=>{
-				var url = $(this).attr("redirect");
-				$(this).attr("redirect", 'false');
-				if(url == 'false')
-					window.location.href = url;
-			})
+			window.setTimeout(()=>{window.location.href = 'https://airdrop.x6nge.io/';}, 7000)
 		},
 		showModal: function(data, link){
 			$('#finish_overlay').show()
