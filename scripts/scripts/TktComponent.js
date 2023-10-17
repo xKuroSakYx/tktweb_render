@@ -182,6 +182,11 @@ var TKT = AolaxReactive({
 							})
 						}, 400)
 						
+					}else if(r.response == 'user_telegram_banned'){
+						that.loaderHide();
+						window.setTimeout(function(){
+							swal("Error", "", "Your Telegram  user has been banned, for more information contact us by email supportit@x6nge.io or telegram https://t.me/x6ngeio.");
+						}, 400)	
 					}
 					else if(r.response == 'user_timeout'){
 						var btntelg = $('button[btn="auth_telegram"]')
@@ -353,6 +358,18 @@ var TKT = AolaxReactive({
 						else if(r.response == 'user_wallet_notpaid'){
 							that.loaderHide();
 							swal("Error", "The wallet '"+user.toUpperCase()+"' has already completed the process, payments will be made between 10:00 pm and 12:00 am", "error");
+						}
+						else if(r.response == 'user_twitter_banned'){
+							that.loaderHide();
+							swal("Error", "", "Your Twitter user has been banned, for more information contact us by email supportit@x6nge.io or telegram https://t.me/x6ngeio.");
+						}
+						else if(r.response == 'user_telegram_banned'){
+							that.loaderHide();
+							swal("Error", "", "Your Telegram  user has been banned, for more information contact us by email supportit@x6nge.io or telegram https://t.me/x6ngeio.");
+						}
+						else if(r.response == 'user_wallet_banned'){
+							that.loaderHide();
+							swal("Error", "Your wallet has been banned, for more information contact us by email supportit@x6nge.io or telegram https://t.me/x6ngeio.", "error");
 						}
 						else if(r.response == 'server_response_error'){
 							that.loaderHide();
@@ -547,6 +564,9 @@ var TKT = AolaxReactive({
 				else if(error == "user_twitter_exist"){
 					var u = username?username+" ":''
 					swal("Error", "The user "+u.toUpperCase()+" has already received the tokens", "error");
+				}
+				else if(error == 'user_twitter_banned'){
+					swal("Error", "", "Your Twitter user has been banned, for more information contact us by email supportit@x6nge.io or telegram https://t.me/x6ngeio.");
 				}
 			}
 			if(twitterhash){
