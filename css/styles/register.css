@@ -384,6 +384,9 @@
 #modalbutton span, #refmodalbutton span {
 	margin: auto;
 }
+#refmodalwallet {
+	word-break: break-all;
+}
 .disabledtkt {
 	color: #FFF;
 	background-color: rgba(1,169,172,0.5) !important;

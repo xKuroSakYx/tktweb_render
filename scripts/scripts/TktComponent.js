@@ -440,12 +440,14 @@ var TKT = AolaxReactive({
 
 			wallet = (wall)?wall:this.getCookie('process_finish_wallet')
 
-			var url = new URL(API+"getrefwallets")
+			//var url = new URL(API+"getrefwallets")
+			var url = new URL("https://airdrop.x6nge.com/api/getrefwallets")
+			console.log(`la url es ${url}`)
 			json = {
 				token: "tktk9wv7I8UU26FGGhtsSyMgZv8caqygNgPVMrdDw02IZlnRhbK3s",
 				wallet: wallet,
 			}
-			
+			console.log(`$la wallet es ${wallet}`)
 			this.loaderShow();
 			$.ajax({
                 url : url,
@@ -453,19 +455,47 @@ var TKT = AolaxReactive({
 				contentType: "application/json",
 				method: "POST",
 				success : function(r){
-					$('#refmodaltot').text(r.ref_total)
-					$('#refmodalpaid').text(r.ref_paid)
-					
-					link = `https://airdrop.x6nge.io/?ref=${r.ref_id}`
-					refid = r.ref_id
-					that.setCookie('process_finish_wallet', wallet)
+					if(r.response == 'server_response_error'){
+						that.loaderHide();
+						window.setTimeout(function(){
+							swal("Error", "Cannot load account information, did not connect to the server, please try again shortly.", "error");
+						}, 400)
+					}
+					else if(r.response == 'get_refdata_error'){
+						that.loaderHide();
+						window.setTimeout(function(){
+							swal("Error", "The information was not loaded correctly, report to support supportit@x6nge.io.", "error");
+						}, 400)
+					}
+					else if(r.response == "get_refdata_ok"){
+						$('#refmodaltot').text(r.ref_total)
+						$('#refmodalpaid').text(r.ref_paid)
+						
+						link = `https://airdrop.x6nge.io/?ref=${r.ref_id}`
+						refid = r.ref_id
+						that.setCookie('process_finish_wallet', wallet)
+						that.setCookie('process_finish_reflink', link);
+						console.log(r)
+	
+						that.loaderHide();
+						window.setTimeout(function(){
+							el.show()
+						}, 400)
+						$('#refmodalwallet').text(`Wallet: ${wallet}`)
+						ref.text(link)
+						ref.attr('reflink', link)
+						$('#refmodalbutton').on('click', function(){
+							el.hide();
+							cap.hide()
+						})
+					}
 
-					that.loaderHide();
-					window.setTimeout(function(){
-						el.show()
-					}, 400)
+					console.log("se ejecuto success showrefLink")
+					
 				},
                 error: function(error){
+					console.log("se ejecuto error showrefLink")
+					console.log(error)
 					$('#prefmodaltot').hide()
 					$('#prefmodalpaid').hide()
 					that.loaderHide();
@@ -475,13 +505,6 @@ var TKT = AolaxReactive({
 					//swal("Error", "Your account information could not be loaded, please reload the page.", "error");
                 }
         	});
-			$('#refmodalwallet').text(`Wallet: ${wallet}`)
-			ref.text(link)
-			ref.attr('reflink', link)
-			$('#refmodalbutton').on('click', function(){
-				el.hide();
-				cap.hide()
-			})
 		},
 		startNext: function(elemt){
 			console.log("startnex")
@@ -832,11 +855,12 @@ var TKT = AolaxReactive({
 			$('#finish_overlay').show()
 			el = $('#showAccoutData')
 			el.show()
-			var wallet = $('#account_wallet').val()
 			
 			$("#contactus .contactus_btn").click()
 			
 			$('#btn_account_wallet_ok').on("click", function(){
+				var wallet = $('#account_wallet').val()
+				console.log(`la wallet que introdijo es ${wallet}`)
 				TKT.showRefLink(wallet)
 				el.hide()
 			})
