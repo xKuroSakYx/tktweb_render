@@ -386,7 +386,7 @@ var TKT = AolaxReactive({
 						}
 						else if(r.response == 'user_wallet_ok'){
 							that.loaderHideOk();
-							that.showModal(r.data, r.reflink)
+							that.showModal(false, r.reflink)
 							window.setTimeout(()=>{
 								that.congratulation()
 							}, 1200);
@@ -410,6 +410,10 @@ var TKT = AolaxReactive({
 			window.setTimeout(()=>{window.location.href = 'https://airdrop.x6nge.io/';}, 7000)
 		},
 		showModal: function(data, link){
+			if(data){
+				
+			}
+
 			$('#finish_overlay').show()
 			let that = this
 			window.setTimeout(()=>{
@@ -426,30 +430,22 @@ var TKT = AolaxReactive({
 			}, 500)
 			
 		},
-		showRefLink : function(){
+		showRefLink : function(wall=false){
 			var that = this
 			var cap = $('#finish_overlay')
 			cap.show()
 			var el = $('#showRefLink');
 			var ref = $('#refmodallink');
-			var link = this.getCookie('process_finish_reflink')
-			var refid = this.getCookie('process_finish_refid')
-			var wallet = this.getCookie('process_finish_wallet')
+			var link, refid,  wallet;
+
+			wallet = (wall)?wall:this.getCookie('process_finish_wallet')
 
 			var url = new URL(API+"getrefwallets")
 			json = {
 				token: "tktk9wv7I8UU26FGGhtsSyMgZv8caqygNgPVMrdDw02IZlnRhbK3s",
 				wallet: wallet,
-				refid: refid,
 			}
-			$('#refmodalwallet').text(`Wallet: ${wallet}`)
-			ref.text(link)
-			ref.attr('reflink', link)
-			$('#refmodalbutton').on('click', function(){
-				el.hide();
-				cap.hide()
-			})
-
+			
 			this.loaderShow();
 			$.ajax({
                 url : url,
@@ -459,6 +455,11 @@ var TKT = AolaxReactive({
 				success : function(r){
 					$('#refmodaltot').text(r.ref_total)
 					$('#refmodalpaid').text(r.ref_paid)
+					
+					link = `https://airdrop.x6nge.io/?ref=${r.ref_id}`
+					refid = r.ref_id
+					that.setCookie('process_finish_wallet', wallet)
+
 					that.loaderHide();
 					window.setTimeout(function(){
 						el.show()
@@ -474,6 +475,13 @@ var TKT = AolaxReactive({
 					//swal("Error", "Your account information could not be loaded, please reload the page.", "error");
                 }
         	});
+			$('#refmodalwallet').text(`Wallet: ${wallet}`)
+			ref.text(link)
+			ref.attr('reflink', link)
+			$('#refmodalbutton').on('click', function(){
+				el.hide();
+				cap.hide()
+			})
 		},
 		startNext: function(elemt){
 			console.log("startnex")
@@ -702,23 +710,35 @@ var TKT = AolaxReactive({
 			a=t.getAttribute("position"),
 			s=t.getAttribute("title"),
 			l={
+				tkt: {
+					click: this.showAccoutData,
+					page: "false",
+					ico: "tipogrfico_72x72.png",
+					url: "",
+					label: "Account"
+				},
 				facebook:{
+					page: "true",
 					url:"https://m.me/",
 					label:"Write a message"
 				},
 				whatsapp:{
+					page: "true",
 					url:"https://wa.me/",
 					label:"Write a message"
 				},
 				viber:{
+					page: "true",
 					url:"viber://chat?number=",
 					label:"Write a message"
 				},
 				telegram:{
+					page: "true",
 					url:"https://t.me/",
 					label:"Write a message"
 				},
 				call:{
+					page: "true",
 					url:"tel:",
 					label:"Call us"
 				}
@@ -759,12 +779,14 @@ var TKT = AolaxReactive({
 					b=t.getAttribute(u+"-label"),
 					h=u,_=l[u],
 					v=_.url,
-					C=_.label;
+					C=_.label,
+					M=_.page;
+					N=_.click
 					if(null!==p&&""!==p){
 						var f=document.createElement("a");
 						f.className=e+"_box_item",
 						f.href=v+p,
-						f.setAttribute("target","_blank"),
+						(M == "true")?f.setAttribute("target", "_blank"):f.addEventListener('click', N),
 						r.appendChild(f);
 						var L=document.createElement("span");
 						L.classList.add(e+"_box_item_btn"),
@@ -804,6 +826,24 @@ var TKT = AolaxReactive({
 				c.classList.add(e+"_btn_left"),
 				r.classList.add(e+"_box_left")
 			)
+		},
+		showAccoutData: function(){
+			var that = this
+			$('#finish_overlay').show()
+			el = $('#showAccoutData')
+			el.show()
+			var wallet = $('#account_wallet').val()
+			
+			$("#contactus .contactus_btn").click()
+			
+			$('#btn_account_wallet_ok').on("click", function(){
+				TKT.showRefLink(wallet)
+				el.hide()
+			})
+			$('#btn_account_wallet_cancel').on("click", function(){
+				$('#finish_overlay').hide()
+				el.hide()
+			})
 		}
 
     },
